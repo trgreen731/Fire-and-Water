@@ -8,6 +8,8 @@ public class MainMenu extends BasicGameState{
 	float pos_y;
 	int screen = 0;
 	int level_choose;
+	
+	public MainMenu() {}
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {}

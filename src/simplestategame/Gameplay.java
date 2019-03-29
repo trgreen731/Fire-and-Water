@@ -39,8 +39,11 @@ public class Gameplay extends BasicGameState implements InputProviderListener{
 	private Command color = new BasicCommand("color");
 	private Command reload = new BasicCommand("reload");
 	
-	public Gameplay(int level_select) {
-		if(level_select == 1) {
+	public Gameplay() {
+		GamePlaySaves levelInfo = new GamePlaySaves();
+		String level_select = levelInfo.Load();
+		
+		if(level_select == "1") {
 			this.spawns = LoadLevels.LevelOneStart();
 			this.barriers = LoadLevels.LevelOne();
 			this.char1_x = this.spawns[0];
@@ -48,7 +51,7 @@ public class Gameplay extends BasicGameState implements InputProviderListener{
 			this.char2_x = this.spawns[2];
 			this.char2_y = this.spawns[3];
 		}
-		else if(level_select == 2) {
+		else if(level_select == "2") {
 			this.spawns = LoadLevels.LevelTwoStart();
 			this.barriers = LoadLevels.LevelTwo();
 			this.char1_x = this.spawns[0];

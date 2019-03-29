@@ -16,7 +16,7 @@ public class StateCollection extends StateBasedGame{
 	
     public void initStatesList(GameContainer gc) throws SlickException {
     	this.addState(new MainMenu());
-    	this.addState(new Gameplay(1));
+    	this.addState(new Gameplay());
     }
 	
     public static void main(String[] args) {
