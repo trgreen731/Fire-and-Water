@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <saves>
-<completed>
 	<one>0</one>
 	<two>0</two>
-</completed>
-<current>
-	<one>1</one>
-	<two>0</two>
-</current>
-<load>1</load>
 </saves>
