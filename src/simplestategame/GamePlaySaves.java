@@ -1,21 +1,22 @@
 package simplestategame;
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
+
 import java.io.*;
 import java.util.*;
 
 public class GamePlaySaves {
 	
-	Document doc;
 	ArrayList<String> comp_level = new ArrayList<String>();
-	ArrayList<String> curr_level = new ArrayList<String>();
-	String load_level;
 	
 	public GamePlaySaves() {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			this.doc = builder.parse(new File("lib/Saves.xml"));
+			Document doc = builder.parse(new File("lib/Saves.xml"));
 			Element saves = doc.getDocumentElement();
 			
 			NodeList completed = saves.getElementsByTagName("completed");
@@ -25,17 +26,6 @@ public class GamePlaySaves {
 			this.comp_level.add(comp1);
 			this.comp_level.add(comp2);
 			
-			NodeList current = saves.getElementsByTagName("current");
-			Element curr = (Element) current.item(0);
-			String curr1 = curr.getElementsByTagName("one").item(0).getTextContent();
-			String curr2 = curr.getElementsByTagName("two").item(0).getTextContent();
-			this.curr_level.add(curr1);
-			this.curr_level.add(curr2);
-			
-			NodeList load = saves.getElementsByTagName("load");
-			String sLoad = load.item(0).getTextContent();
-			this.load_level = sLoad;
-			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -44,13 +34,29 @@ public class GamePlaySaves {
 	public ArrayList<String> Completed() {
 		return this.comp_level;
 	}
-	public ArrayList<String> Current() {
-		return this.curr_level;
+	public String Current() {
+		String current = "0";
+		for(int a = this.comp_level.size() - 1; this.comp_level.get(a) == "0"; a -= 1) {
+			current = String.valueOf(a + 1);
+		}
+		return current;
 	}
-	public String Load() {
-		return this.load_level;
-	}
-	public void UpdateLoad(String selected) {
-		
+	public void UpdateCompleted(String level, String status) {
+		try {
+			DocumentBuilderFactory factory_v2 = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder_v2 = factory_v2.newDocumentBuilder();
+			Document doc_v2 = builder_v2.parse(new File("lib/Saves.xml"));
+			Element saves_v2 = doc_v2.getDocumentElement();
+			NodeList completed_v2 = saves_v2.getElementsByTagName("completed");
+			Element comp_v2 = (Element) completed_v2.item(0);
+			comp_v2.getElementsByTagName(level).item(0).setTextContent(status);
+			TransformerFactory transformerfactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerfactory.newTransformer();
+			DOMSource source = new DOMSource(doc_v2);
+			StreamResult console = new StreamResult(System.out);
+			transformer.transform(source, console);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

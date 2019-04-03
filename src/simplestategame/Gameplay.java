@@ -38,10 +38,15 @@ public class Gameplay extends BasicGameState implements InputProviderListener{
 	boolean char_choose = true;
 	private Command color = new BasicCommand("color");
 	private Command reload = new BasicCommand("reload");
-	
-	public Gameplay() {
-		GamePlaySaves levelInfo = new GamePlaySaves();
-		String level_select = levelInfo.Load();
+
+	@Override
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		InputProvider keys = new InputProvider(gc.getInput());
+		keys.addListener(this);
+		keys.bindCommand(new KeyControl(Input.KEY_S), color);
+		keys.bindCommand(new KeyControl(Input.KEY_R), reload);
+		
+		String level_select = "1";
 		
 		if(level_select == "1") {
 			this.spawns = LoadLevels.LevelOneStart();
@@ -59,14 +64,6 @@ public class Gameplay extends BasicGameState implements InputProviderListener{
 			this.char2_x = this.spawns[2];
 			this.char2_y = this.spawns[3];
 		}
-	}
-
-	@Override
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		InputProvider keys = new InputProvider(gc.getInput());
-		keys.addListener(this);
-		keys.bindCommand(new KeyControl(Input.KEY_S), color);
-		keys.bindCommand(new KeyControl(Input.KEY_R), reload);
 		//binds space key to the command to switch characters
 	}
 
@@ -137,7 +134,7 @@ public class Gameplay extends BasicGameState implements InputProviderListener{
 		Rectangle char2 = new Rectangle(this.char2_x, this.char2_y, 30, 60);
 		
 		this.char1_ddy = 600;
-		for(Rectangle element: barriers) {
+		for(Rectangle element: this.barriers) {
 			CharacterCollision collide = new CharacterCollision(char1, element, this.char1_x, this.char1_y, this.char1_dx, this.char1_dy, this.char1_ddy);
 			this.char1_x = collide.characterX();
 			this.char1_y = collide.characterY();
@@ -148,7 +145,7 @@ public class Gameplay extends BasicGameState implements InputProviderListener{
 		}
 		
 		this.char2_ddy = 600;
-		for(Rectangle element: barriers) {
+		for(Rectangle element: this.barriers) {
 			CharacterCollision collide = new CharacterCollision(char2, element, this.char2_x, this.char2_y, this.char2_dx, this.char2_dy, this.char2_ddy);
 			this.char2_x = collide.characterX();
 			this.char2_y = collide.characterY();

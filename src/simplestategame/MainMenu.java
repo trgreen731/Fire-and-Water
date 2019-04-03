@@ -8,8 +8,6 @@ public class MainMenu extends BasicGameState{
 	float pos_y;
 	int screen = 0;
 	int level_choose;
-	
-	public MainMenu() {}
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {}
@@ -29,14 +27,13 @@ public class MainMenu extends BasicGameState{
 		else if(this.screen == 1) {
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				if(this.pos_x >= 100 && this.pos_x <= 150 && this.pos_y >= 100 && this.pos_y <= 150) {
-					level_choose = 1;
 					sbg.enterState(1);
+					
 				}
 				else if(this.pos_x >= 200 && this.pos_x <= 250 && this.pos_y >= 100 && this.pos_y <= 150) {
-					level_choose = 2;
-					sbg.enterState(2);
+					sbg.enterState(1);
 				}
-			}
+			}		
 		}
 	}
 	
